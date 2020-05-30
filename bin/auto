@@ -1,14 +1,5 @@
 #!usr/bin/env node
-/**
- * date: 2020-05-11
- * author: zyy
- * info: 自动集成git命令
- * git add -》commit -》checkout xxx -》 pull -》 merge -》 status
- * ps: 暂未开放
- */
-const spawn = require('cross-spawn');
-const child_process = require('child_process')
-const getBranchInfo = require('./getBranchInfo')
+
 const log = require('../tools/log')
 const mini = require('minimist')
 
@@ -18,5 +9,6 @@ const ARGV_INIT = argvs['_'] // 不带参数的解析
 const BRANCH = argvs['b'] || (ARGV_INIT.length > 2 ? ARGV_INIT[2] : '@ME')
 const MSG = argvs['m'] || (ARGV_INIT.length > 3 ? ARGV_INIT[3] : 'update')
 
-
+log(argvs, ARGV_INIT)
+log('command', argvs[1])
 log(BRANCH, MSG);

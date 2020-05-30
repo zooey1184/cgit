@@ -1,0 +1,4 @@
+#!usr/bin/env node
+const cgitConfig = require('../src/path')
+
+console.log('cgitConfig', cgitConfig);

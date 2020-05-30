@@ -1,0 +1,15 @@
+#!usr/bin/env node
+const program = require('commander')
+
+// 定义当前版本
+// 定义使用方法
+// 定义四个指令
+program
+  .version(require('../package').version)
+  .usage('<command> [options]')
+	.command('auto', '自动运行切换合并推送')
+	.command('tag', '根据规则生成tag')
+	.command('checkout', '当前分支保存并切换对应分支')
+	
+// 解析命令行参数
+program.parse(process.argv)

@@ -1,17 +1,29 @@
 {
   "name": "cgit",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "git",
+    "cli",
+    "auto"
+  ],
+  "author": "zooey1184",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^4.0.0",
+    "commander": "^5.1.0",
     "cross-spawn": "^7.0.3",
-    "fs-extra": "^9.0.0"
+    "fs-extra": "^9.0.0",
+    "minimist": "^1.2.5"
+  },
+  "bin": {
+    "cgit": "bin/cgit",
+    "cgit-auto": "bin/auto",
+    "cgit-tag": "bin/tag",
+    "cgit-checkout": "bin/checkout"
   }
 }
