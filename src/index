@@ -1,0 +1,46 @@
+#!usr/bin/env node
+/**
+ * date: 2020-05-11
+ * author: zyy
+ * info: 自动集成git命令
+ * git add -》commit -》checkout xxx -》 pull -》 merge -》 status
+ * ps: 暂未开放
+ */
+const spawn = require('cross-spawn');
+const child_process = require('child_process')
+
+const log = require('../tools/log')
+
+
+const getBranchInfo = ()=> {
+  // 获取所有分支
+  let branch;
+  let branchList
+  try {
+    branch = child_process.execSync('git branch -a', { encoding: 'utf8' });
+    branchList = branch.split('\n').map(item => item.trim())
+    let currentBranch = branch.match(/\* .+/)[0]
+    currentBranch = currentBranch ? currentBranch.substr(2, currentBranch.length - 1) : ''
+    return {
+      branchList,
+      currentBranch
+    }
+  } catch (e) {
+    const hasRemote = child_process.execSync('git remote', { encoding: 'utf8' });
+    if(hasRemote) {
+      log.error('\n ERROR ', 'git branch -a 执行错误，可能没有关联到远程仓库')
+      log('您可以尝试命令: git remote add origin [url]\n')
+    } else {
+      log.error(' ERROR ', '远程仓库还没有您的提交信息，请先push')
+      log('您可以尝试命令: git branch --set-upstream-to=origin/<branch> master\n')
+      log('您可以尝试命令: git branch --set-upstream-to=origin/<branch> master\n')
+    }
+    
+    
+    process.exit()
+  }
+}
+
+const {branchList, currentBranch} = getBranchInfo()
+
+log(branchList, currentBranch)
