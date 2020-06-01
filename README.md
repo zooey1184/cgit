@@ -1,5 +1,10 @@
 # cgit 集成git命令行
 
+### 安装
+```sh
+npm i -g @zooey1184/cgit
+cnpm i -g @zooey1184/cgit
+
 ### 基本用法
 ```sh
 cgit run dev -m "msg" -t s+1
