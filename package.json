@@ -9,7 +9,7 @@
   "keywords": [
     "git",
     "cli",
-    "auto"
+    "run"
   ],
   "author": "zooey1184",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "bin": {
     "cgit": "bin/cgit",
-    "cgit-auto": "bin/cgit-auto",
+    "cgit-run": "bin/cgit-run",
     "cgit-tag": "bin/cgit-tag",
     "cgit-checkout": "bin/cgit-checkout"
   }

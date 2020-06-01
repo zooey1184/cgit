@@ -3,9 +3,10 @@ const spawn = require('cross-spawn');
 const child_process = require('child_process')
 const log = require('../tools/log')
 const mini = require('minimist')
-
+const getBranchInfo = require('../src/getBranchInfo')
 const argvs = mini(process.argv)
 const ARGV_INIT = argvs['_']
+const hasConflict = require('../src/hasConflict')
 
 // 保存 + 提交
 const add_commit = (msg) => {
@@ -25,6 +26,27 @@ const checkout = (_branch) => {
   }
 }
 
+
+// 是否有对应的远程分支
+const {currentBranch, branchList} = getBranchInfo()
+const hasRemoteBranch = (b) => {
+  if (branchList.includes(`remotes/origin/${b}`)) {
+    return true
+  }
+  return false
+}
+const pull_status = (_branch, next) => {
+  // 如果远程有分支 下一步则进行拉取最新代码 否则退出
+  if (hasRemoteBranch(_branch)) {
+    // 执行pull
+    spawn.sync('git', ['pull'], { stdio: 'inherit' })
+    log.success('\n SUCCESS ', 'pull',  _branch)
+    hasConflict()
+  } else {
+    next && next()
+  }
+}
+
 const BRANCH = ARGV_INIT[2]
 const MSG = argvs('m')
 if(MSG) {
@@ -33,5 +55,8 @@ if(MSG) {
 
 if(BRANCH) {
 	checkout(BRANCH)
+	pull_status(BRANCH, ()=> {
+		process.exit()
+	})
 }
 

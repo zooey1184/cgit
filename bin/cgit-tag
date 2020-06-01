@@ -25,7 +25,7 @@ if(argvs('l')) {
 	process.exit()
 }
 
-let useTag = 'v1.0.0'
+let useTag = argvs['tag'] || 'v1.0.0'
 const config = getGitConfig()
 const MSG = argvs['m'] || `"提交人: ${config['user.name']}"`
 if(argvs['mode']) {
@@ -49,6 +49,10 @@ if(argvs['mode']) {
 		spawn.sync('git', ['tag', '-a', useTag, '-m', MSG], { stdio: 'inherit' })
 		process.exit(1)
 	}
+} else {
+	log.success(' SUCCESS ', `您创建了 ${useTag} 标签`)
+	spawn.sync('git', ['tag', '-a', useTag, '-m', MSG], { stdio: 'inherit' })
+	process.exit(1)
 }
 
 

@@ -102,7 +102,7 @@ const merge = () => {
 const pushTag = () => {
 	const all_tags = child_process.execSync('git tag -l', { encoding: 'utf8' });
 	if(!all_tags) return
-	
+
   let newTag = getTag(all_tags, BRANCH)
   const config = getGitConfig()
   if(newTag) {
@@ -172,15 +172,16 @@ if (BRANCH && BRANCH != currentBranch) {
   checkout(BRANCH)
   pull_status(BRANCH)
 
-  // 第三步：合并本地分支代码，查看冲突
-  merge()
-  hasConflict()
+	// 第三步：合并本地分支代码，查看冲突
+	if(!argvs['no-mp']) {
+		merge()
+		hasConflict()
 
-  // 如果没有冲突 进行第四步，提交信息，推送到远程
-  add_commit(`merge: ${currentBranch}`)
-  push(BRANCH)
-
-  checkout(currentBranch)
+		// 如果没有冲突 进行第四步，提交信息，推送到远程
+		add_commit(`merge: ${currentBranch}`)
+		push(BRANCH)
+		checkout(currentBranch)
+	}
   process.exit()
 }
 
