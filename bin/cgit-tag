@@ -28,19 +28,21 @@ if(argvs['l']) {
 let useTag = argvs['tag'] || 'v1.0.0'
 const config = getGitConfig()
 const MSG = argvs['m'] || `"提交人: ${config['user.name']}"`
-if(argvs['mode']) {
-	if(argvs['mode'] === 'date') {
+
+const mode = argvs['mode'] || argvs['M']
+if(mode) {
+	if(mode === 'date') {
 		useTag = dateTag(all_tags, {
 			mode: 'date',
-			type: argvs['type'] || 'YY.MM.DD'
+			type: argvs['type'] || argvs['T'] || 'YY.MM.DD'
 		})
 		log.success(' SUCCESS ', `您创建了 ${useTag} 标签`)
 		spawn.sync('git', ['tag', '-a', useTag, '-m', MSG], { stdio: 'inherit' })
 		process.exit(1)
 	}
 
-	if(argvs['mode'] === 'version') {
-		let type = argvs['type'] || 's+1'
+	if(mode === 'version') {
+		let type = argvs['type'] || argvs['T'] || 's+1'
 		useTag = versionTag(all_tags, type, {
 			mode: 'version',
 			type: type
