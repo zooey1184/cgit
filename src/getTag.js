@@ -68,7 +68,7 @@ const versionTag = (tags, type, options={})=> {
 		let t = item.replace(prefix, '')
 		let tarr = t.split('.')
 		// 判断是可以转化为数字   有些情况可能不能转化
-		if(Number(tarr[0])) {
+		if(Number(tarr[0]) || Number(tarr[0])==0) {
 			if(tarr.length == 3) {
 				arr.push(tarr)
 				lmax = Math.max(lmax, tarr[0])
@@ -77,6 +77,7 @@ const versionTag = (tags, type, options={})=> {
 	})
 
 	let mmax = 0;
+	
 	let mmaxList = arr.filter(item => {
 		if(item[0] == lmax) {
 			mmax = Math.max(mmax, item[1])

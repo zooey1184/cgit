@@ -20,7 +20,7 @@ if(!all_tags) {
 if(argvs['l']) {
 	if(all_tags) {
 		log.tip(' TIP ', `${all_tags.split('\n')}`)
-		log.info('You can use tag: ', dateTag(all_tags), '\nOR: ',versionTag(all_tags, 's+1'))
+		log.info('You can use tag: ', '', dateTag(all_tags), 'OR: ', versionTag(all_tags, 's+1'))
 	}
 	process.exit()
 }
