@@ -1,31 +1,30 @@
-#!usr/bin/env node
-/**
- * date: 2020-05-11
- * author: zyy
- * info: 自动集成git命令
- * git add -》commit -》checkout xxx -》 pull -》 merge -》 status
- * ps: 暂未开放
- */
+#!/usr/bin/env node
+
 const spawn = require('cross-spawn');
 const child_process = require('child_process')
-const getBranchInfo = require('./getBranchInfo')
-const log = require('../tools/log')
 const mini = require('minimist')
-const getGitConfig = require('./getConfig')
-const hasConflict = require('./hasConflict')
-const hook = require('./hook')
-const paths = require('./path')
-const stageHook = require('./stageHook')
-const {currentBranch, branchList} = getBranchInfo()
+// 工具函数
+const log = require('../tools/log')
+// 内部方法
+const getBranchInfo = require('../src/getBranchInfo')
+const getGitConfig = require('../src/getConfig')
+const hasConflict = require('../src/hasConflict')
+const hook = require('../src/hook')
+const paths = require('../src/path')
+const stageHook = require('../src/stageHook')
+const getTag = require('./getTagfromParams')
+
+// 参数信息
 const argvs = mini(process.argv)
 const ARGV_INIT = argvs['_'] // 不带参数的解析
-const getTag = require('./getTagfromParams')
+
+// 分支信息
 const BRANCH = argvs['b'] || (ARGV_INIT.length > 2 ? ARGV_INIT[2] : '@ME')
 const MSG = argvs['m'] || (ARGV_INIT.length > 3 ? ARGV_INIT[3] : 'update')
 const TAG = argvs['t'] || undefined
 
 const cgitConfig = paths.cgitConfig
-
+const {currentBranch, branchList} = getBranchInfo()
 
 // 是否有对应的远程分支
 const hasRemoteBranch = (b) => {
@@ -101,7 +100,9 @@ const merge = () => {
 
 
 const pushTag = () => {
-  const all_tags = child_process.execSync('git tag -l', { encoding: 'utf8' });
+	const all_tags = child_process.execSync('git tag -l', { encoding: 'utf8' });
+	if(!all_tags) return
+	
   let newTag = getTag(all_tags, BRANCH)
   const config = getGitConfig()
   if(newTag) {
@@ -140,7 +141,7 @@ const push = (_branch, next) => {
   }
 }
 
-
+// 注入钩子
 cgitConfig && cgitConfig.hook && stageHook(cgitConfig.hook, hook)
 
 
@@ -159,6 +160,7 @@ if (BRANCH && (BRANCH == currentBranch || BRANCH == '@ME')) {
 }
 
 
+
 // // ******** 情况二：当前分支与切换分支不是同一个分支 *******/
 if (BRANCH && BRANCH != currentBranch) {
   // 第一步：本地拉取最新代码 =》 提交信息 =》 推送本地到远程
@@ -174,11 +176,17 @@ if (BRANCH && BRANCH != currentBranch) {
   merge()
   hasConflict()
 
-  // 第四步，如果没有冲突 进行提交信息，推送到远程
+  // 如果没有冲突 进行第四步，提交信息，推送到远程
   add_commit(`merge: ${currentBranch}`)
   push(BRANCH)
 
   checkout(currentBranch)
   process.exit()
 }
+
+
+
+
+
+
 

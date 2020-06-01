@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+const spawn = require('cross-spawn');
+const child_process = require('child_process')
+const log = require('../tools/log')
+const mini = require('minimist')
+
+const argvs = mini(process.argv)
+const ARGV_INIT = argvs['_']
+
+// 保存 + 提交
+const add_commit = (msg) => {
+  spawn.sync('git', ['add', '.'], { stdio: 'inherit' })
+  spawn.sync('git', ['commit', '-m', msg], { stdio: 'inherit' })
+  log.success(' SUCCESS ', msg)
+}
+
+// 切换分支
+const checkout = (_branch) => {
+  try {
+    child_process.execSync(`git checkout ${_branch}`, { encoding: 'utf8' });
+    log.info(' CHECKOUT ', `切换到分支${_branch}`)
+  } catch (e) {
+    log.error('\n Error ', `不存在分支，请先新建分支， git checkout -b ${_branch}`)
+    process.exit()
+  }
+}
+
+const BRANCH = ARGV_INIT[2]
+const MSG = argvs('m')
+if(MSG) {
+	add_commit(MSG)
+}
+
+if(BRANCH) {
+	checkout(BRANCH)
+}
+

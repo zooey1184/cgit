@@ -1,30 +1,5 @@
-/**
- * 用于配置指定时期发生的事件
- * 暂时写死
- */
-// const hooks = {
-// 	push: {
-// 		before: {
-// 			only: ['pro', 'uat']
-// 		}
-// 	}
-// }
 
-// const hookFn = (stage, _curBranch, cb)=> {
-// 	let stageList = stage.split('.')
-// 	let finalState;
-// 	if(stageList && stageList.length) {
-// 		finalState = stageList.reduce(function(b,n) {
-// 			return b[n] ? b[n] : undefined
-// 		}, hooks)
-// 	}
-// 	if(finalState && finalState.only) {
-// 		if(finalState.includes(_curBranch)) {
-// 			cb && cb()
-// 		}
-// 	}
-// }
-const ME = '@me'
+const ME = '@ME'
 class Hook {
 	constructor() {
 		this.eventList = {}
@@ -32,6 +7,9 @@ class Hook {
 	register(hookName, obj) {
 		this.eventList[hookName] = this.eventList[hookName] && this.eventList[hookName].length ? this.eventList[hookName] : []
 		this.eventList[hookName].push(obj)
+	}
+	hasHook(hookName) {
+		return this.eventList[hookName] && this.eventList[hookName].length>0
 	}
 	publish(hookName, _branch, query) {
 		let l = this.eventList[hookName]
@@ -42,9 +20,22 @@ class Hook {
 				let exclude = item.exclude
 
 				// 符合条件包含执行
+				if(Object.prototype.toString.call(c)=='[object RegExp]') {
+					if(c.test(_branch)) {
+						item.fn(query)
+						return item
+					}
+				}
 				if(c && c.length && (c.includes(_branch) || c.includes(ME))) {
 					item.fn(query)
 					return item
+				}
+
+				if(Object.prototype.toString.call(exclude)=='[object RegExp]') {
+					if(!exclude.test(_branch)) {
+						item.fn(query)
+						return item
+					}
 				}
 				// 符合条件不包含的执行
 				if(exclude && exclude.length && (!exclude.includes(_branch))) {

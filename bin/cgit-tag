@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+const spawn = require('cross-spawn');
+const child_process = require('child_process')
+const mini = require('minimist')
+const getGitConfig = require('../src/getConfig')
+// 工具函数
+const log = require('../tools/log')
+const {dateTag, versionTag} = require('../src/getTag')
+const argvs = mini(process.argv)
+const ARGV_INIT = argvs['_']
+
+
+const all_tags = child_process.execSync('git tag -l', { encoding: 'utf8' });
+
+if(!all_tags) {
+	log.tip(' TIP ', '没有tag信息，先新建一个吧')
+	process.exit()
+}
+
+if(argvs('l')) {
+	if(all_tags) {
+		log.tip(' TIP ', `${all_tags.split('\n')}`)
+		log.info('You can use tag: ', dateTag(all_tags), '\nOR: ',versionTag(all_tags, 's+1'))
+	}
+	process.exit()
+}
+
+let useTag = 'v1.0.0'
+const config = getGitConfig()
+const MSG = argvs['m'] || `"提交人: ${config['user.name']}"`
+if(argvs['mode']) {
+	if(argvs['mode'] === 'date') {
+		useTag = dateTag(all_tags, {
+			mode: 'date',
+			type: argvs['type'] || 'YY.MM.DD'
+		})
+		log.success(' SUCCESS ', `您创建了 ${useTag} 标签`)
+		spawn.sync('git', ['tag', '-a', useTag, '-m', MSG], { stdio: 'inherit' })
+		process.exit(1)
+	}
+
+	if(argvs['mode'] === 'version') {
+		let type = argvs['type'] || 's+1'
+		useTag = versionTag(all_tags, type, {
+			mode: 'version',
+			type: type
+		})
+		log.success(' SUCCESS ', `您创建了 ${useTag} 标签`)
+		spawn.sync('git', ['tag', '-a', useTag, '-m', MSG], { stdio: 'inherit' })
+		process.exit(1)
+	}
+}
+
+
+if(ARGV_INIT[2]=='push' || argvs['p']) {
+	spawn.sync('git', ['push', 'origin', useTag], { stdio: 'inherit' })
+	log.success(' SUCCESS ', `推送 ${useTag} 标签`)
+}
+

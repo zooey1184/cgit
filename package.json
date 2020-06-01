@@ -1,6 +1,6 @@
 {
-  "name": "cgit",
-  "version": "0.0.1",
+  "name": "@zooey1184/cgit",
+  "version": "0.0.3",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -22,8 +22,8 @@
   },
   "bin": {
     "cgit": "bin/cgit",
-    "cgit-auto": "bin/auto",
-    "cgit-tag": "bin/tag",
-    "cgit-checkout": "bin/checkout"
+    "cgit-auto": "bin/cgit-auto",
+    "cgit-tag": "bin/cgit-tag",
+    "cgit-checkout": "bin/cgit-checkout"
   }
 }
