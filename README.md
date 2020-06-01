@@ -7,7 +7,7 @@ cnpm i -g @zooey1184/cgit
 
 ### 基本用法
 ```sh
-cgit run dev -m "msg" -t s+1
+cgit to dev -m "msg" -t s+1
 ```
 上面的例子表示保存当前分支，信息为msg，切换到dev分支，拉取最新代码，合并，检测有无冲突，
 如无提交uat远程分支（如果配置了钩子函数会在对应时期进行钩子函数），并打小版本更新tag, 最后切换会本地分支
@@ -16,7 +16,7 @@ ps：如果希望只是保存本地分支并且只切换分支dev 建议使用
 ```sh
 cgit checkout dev -m "msg"
 # or
-cgit run dev -m "msg" -no-mp
+cgit to dev -m "msg" -no-mp
 # or
 git add .
 git commit -m "msg"
@@ -28,15 +28,15 @@ git checkout dev
 ### 参数
 
 #### -t
-cgit run -t [?date|l+1|m+1|s+1] -tag [customTag]
-cgit run -t 按配置文件来 
+cgit to -t [?date|l+1|m+1|s+1] -tag [customTag]
+cgit to -t 按配置文件来 
 
 ##### -t -tag
 如果 命令行 -t -tag branchName
 表示使用传入的branchName作为tag
 
 
-> 如果你使用cgit run 来运行，您需要一个配置文件来定义那些分支上需要打tag
+> 如果你使用cgit to 来运行，您需要一个配置文件来定义那些分支上需要打tag
 ##### tag.test
 需要匹配的分支   在这个分支才能推送tag到远程
 
@@ -71,11 +71,11 @@ prefix 版本号前缀, 默认 v
 
 ```sh
 # 保存信息提交到当前分支
-cgit run -m "update"
+cgit to -m "update"
 # 保存信息提交到uat分支
-cgit run uat -m "update"
+cgit to uat -m "update"
 # 保存信息提交到branch分支
-cgit run -m "" -b branch
+cgit to -m "" -b branch
 ```
 
 

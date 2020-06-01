@@ -1,6 +1,6 @@
 {
   "name": "@zooey1184/cgit",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "bin": {
     "cgit": "bin/cgit",
-    "cgit-run": "bin/cgit-run",
+    "cgit-to": "bin/cgit-to",
     "cgit-tag": "bin/cgit-tag",
     "cgit-checkout": "bin/cgit-checkout"
   }
