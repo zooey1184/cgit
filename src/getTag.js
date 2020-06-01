@@ -16,7 +16,7 @@ const formatStr = (num)=> {
  * 自动输出tag
  * @param {*} tags 所有tag的列表
  */
-const dateTag = (tags, options)=> {
+const dateTag = (tags, options={})=> {
 	const prefix = options.prefix || 'v'
 	// 日期设置
 	const date = new Date()
@@ -54,7 +54,7 @@ const dateTag = (tags, options)=> {
 
 
 // 按版本划分
-const versionTag = (tags, type, options)=> {
+const versionTag = (tags, type, options={})=> {
 	let initial = '1.0.0';
 	const prefix = options.prefix || 'v';
 	let arr = [];
