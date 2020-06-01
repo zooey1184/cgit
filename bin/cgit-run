@@ -12,7 +12,7 @@ const hasConflict = require('../src/hasConflict')
 const hook = require('../src/hook')
 const paths = require('../src/path')
 const stageHook = require('../src/stageHook')
-const getTag = require('./getTagfromParams')
+const getTag = require('../src/getTagfromParams')
 
 // 参数信息
 const argvs = mini(process.argv)
