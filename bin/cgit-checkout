@@ -48,7 +48,7 @@ const pull_status = (_branch, next) => {
 }
 
 const BRANCH = ARGV_INIT[2]
-const MSG = argvs('m')
+const MSG = argvs['m']
 if(MSG) {
 	add_commit(MSG)
 }

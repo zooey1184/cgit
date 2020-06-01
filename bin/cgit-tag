@@ -17,7 +17,7 @@ if(!all_tags) {
 	process.exit()
 }
 
-if(argvs('l')) {
+if(argvs['l']) {
 	if(all_tags) {
 		log.tip(' TIP ', `${all_tags.split('\n')}`)
 		log.info('You can use tag: ', dateTag(all_tags), '\nOR: ',versionTag(all_tags, 's+1'))
