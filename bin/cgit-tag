@@ -20,22 +20,21 @@ if(!all_tags) {
 if(argvs['l']) {
 	if(all_tags) {
 		const allTags = all_tags.split('\n')
-		if(allTags.length < 10) {
-			log.tip(' TIP ', all_tags)
-		} else {
-			if(argvs['a']) {
+
+		if(typeof argvs['l'] === 'boolean') {
+			if(allTags.length < 10) {
 				log.tip(' TIP ', all_tags)
-				return
-			}
-			if(argvs['s']) { // search 查找tag
-				log.tip(' TIP ', allTags.reverse().filter((item) => item.match(new RegExp(argvs['s']))).join('\n'))
-				return 
 			} else {
+				if(argvs['a']) {
+					log.tip(' TIP ', all_tags)
+					return
+				}
 				log.tip(' TIP ', allTags.reverse().filter((_,index) => index<10).join('\n'))
-				log.tip(' TIP ', '你可以使用 cgit tag -l -a 获取全部tag信息')
+				log.tip(' TIP ', '\n你可以使用 cgit tag -l -a 获取全部tag信息', '你可以使用 cgit tag -l xx 搜索 xx 标签')
 			}
+		} else {
+			log.tip(' TIP ', allTags.reverse().filter((item) => item.match(new RegExp(argvs['l']))).join('\n'))
 		}
-		
 		log.tip(`\nYou can use tag: `, '', dateTag(all_tags), 'OR: ', versionTag(all_tags, 's+1'))
 	}
 	process.exit()
