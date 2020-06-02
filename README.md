@@ -117,6 +117,7 @@ cgit tag -mode version -type m+1 -m "msg"
 hook暂时只有merge pull push 对应的before，after阶段
 
 ```js
+// cgit.config.js
 module.exports = {
 	hook: {
 		beforeMerge: {
