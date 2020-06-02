@@ -32,10 +32,11 @@ const dateTag = (tags, options={})=> {
 	const type = options.type || 'YY.MM.DD'
 	const useType = type.replace(/yyyy/ig, YYYY).replace(/yy/ig, YY).replace(/MM/ig, MM).replace(/m/ig, M).replace(/DD/ig, DD).replace(/D/ig, D)
 	
-	const curTagHead = `${prefix}${useType}.` // 头部匹配
+	const lastSplitSym = useType.match(/[^YDM]$/ig) ? '' : '.'
+	const curTagHead = `${prefix}${useType}${lastSplitSym}` // 头部匹配
 
 	// 如果不存在tag 则直接输出当前配置的tag
-	if(!(tags && tags.length)) return `${prefix}${useType}.01`;
+	if(!(tags && tags.length)) return `${prefix}${useType}${lastSplitSym}01`;
 
 	const tagsList = Object.prototype.toString.call(tags) === '[object Array]' ? tags : tags.split('\n')
 	// 筛选出匹配头部的

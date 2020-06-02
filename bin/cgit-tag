@@ -25,6 +25,11 @@ if(argvs['l']) {
 		} else {
 			if(argvs['a']) {
 				log.tip(' TIP ', all_tags)
+				return
+			}
+			if(argvs['s']) { // search 查找tag
+				log.tip(' TIP ', allTags.reverse().filter((item) => item.match(new RegExp(argvs['s']))).join('\n'))
+				return 
 			} else {
 				log.tip(' TIP ', allTags.reverse().filter((_,index) => index<10).join('\n'))
 				log.tip(' TIP ', '你可以使用 cgit tag -l -a 获取全部tag信息')
@@ -36,7 +41,7 @@ if(argvs['l']) {
 	process.exit()
 }
 
-let useTag = argvs['tag'] || 'v1.0.0'
+let useTag = argvs['tag'] || argvs['a'] || 'v1.0.0'
 const config = getGitConfig()
 const MSG = argvs['m'] || `"提交人: ${config['user.name']}"`
 

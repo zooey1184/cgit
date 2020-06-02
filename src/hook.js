@@ -1,3 +1,4 @@
+const spawn = require('cross-spawn');
 
 const ME = '@ME'
 class Hook {
@@ -19,29 +20,30 @@ class Hook {
 				let c = item.only
 				let exclude = item.exclude
 
-				// 符合条件包含执行
-				if(Object.prototype.toString.call(c)=='[object RegExp]') {
-					if(c.test(_branch)) {
-						item.fn(query)
-						return item
+				function doit() {
+					item.fn && item.fn(query)
+					// 暂时只支持数组类型
+					if(item.scripts && item.scripts.length) {
+						for(let i=0; i<item.scripts; i++) {
+							let [e, ...last] = item.scripts
+							spawn.sync(e, last, { stdio: 'inherit', env: process.env })
+						}
 					}
-				}
-				if(c && c.length && (c.includes(_branch) || c.includes(ME))) {
-					item.fn(query)
 					return item
 				}
 
+				// 符合条件包含执行
+				if(Object.prototype.toString.call(c)=='[object RegExp]') {
+					c.test(_branch) && doit()
+				}
+
+				c && c.length && (c.includes(_branch) || c.includes(ME)) && doit()
+
 				if(Object.prototype.toString.call(exclude)=='[object RegExp]') {
-					if(!exclude.test(_branch)) {
-						item.fn(query)
-						return item
-					}
+					!exclude.test(_branch) && doit()
 				}
 				// 符合条件不包含的执行
-				if(exclude && exclude.length && (!exclude.includes(_branch))) {
-					item.fn(query)
-					return item
-				}
+				exclude && exclude.length && (!exclude.includes(_branch)) && doit()
 			})
 		}
 	}

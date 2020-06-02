@@ -38,7 +38,7 @@ const hasRemoteBranch = (b) => {
 const add_commit = (msg) => {
   spawn.sync('git', ['add', '.'], { stdio: 'inherit' })
   spawn.sync('git', ['commit', '-m', msg], { stdio: 'inherit' })
-  log.success('\n add & commit success ', msg)
+  log.success('\n SUCCESS ', `add & commit: ${msg}`)
 }
 
 // 拉取最新代码 + 拿取状态
