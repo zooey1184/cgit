@@ -31,7 +31,7 @@ git checkout dev
 cgit to -t [?date|l+1|m+1|s+1] -tag [customTag]
 cgit to -t 按配置文件来 
 
-##### -t -tag
+##### -t --tag
 如果 命令行 -t -tag branchName
 表示使用传入的branchName作为tag
 
@@ -83,11 +83,17 @@ cgit to -m "" -b branch
 #### 参数 -l
 建议推送分支
 
-#### 参数 -mode -type
+#### -l -a
+查看全部tag
+
+#### -l xx
+搜索包含xx 的tag
+
+#### 参数 --mode(-M) --type(-T)
 mode => date | version 内置的两种版本提交方式
 type => 两种提交方式的具体类型
 
-#### 参数 -tag
+#### 参数 --tag
 自定义的tag
 
 #### 参数 -p

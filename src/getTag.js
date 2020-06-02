@@ -30,9 +30,9 @@ const dateTag = (tags, options={})=> {
 	const D = day
 
 	const type = options.type || 'YY.MM.DD'
+	const lastSplitSym = type.match(/[^YDM]$/ig) ? '' : '.'
 	const useType = type.replace(/yyyy/ig, YYYY).replace(/yy/ig, YY).replace(/MM/ig, MM).replace(/m/ig, M).replace(/DD/ig, DD).replace(/D/ig, D)
 	
-	const lastSplitSym = useType.match(/[^YDM]$/ig) ? '' : '.'
 	const curTagHead = `${prefix}${useType}${lastSplitSym}` // 头部匹配
 
 	// 如果不存在tag 则直接输出当前配置的tag
