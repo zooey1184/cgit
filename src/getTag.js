@@ -1,13 +1,19 @@
 
 // 带上前缀
-const formatStr = (num)=> {
+const formatStr = (num, length=2)=> {
 	let s = `${num}`
 	let len = s.length
-	if(len<2) {
-		return `0${num}`
+	const left = length-len
+	if(left>0) {
+		return `${'0'.repeat(left)}${num}`
 	} else {
 		return num
 	}
+	// if(len<2) {
+	// 	return `0${num}`
+	// } else {
+	// 	return num
+	// }
 }
 
 
@@ -30,6 +36,7 @@ const dateTag = (tags, options={})=> {
 	const D = day
 
 	const type = options.type || 'YY.MM.DD'
+	const length = options.s_length || 2
 	const lastSplitSym = type.match(/[^YDM]$/ig) ? '' : '.'
 	const useType = type.replace(/yyyy/ig, YYYY).replace(/yy/ig, YY).replace(/MM/ig, MM).replace(/m/ig, M).replace(/DD/ig, DD).replace(/D/ig, D)
 	
@@ -49,7 +56,7 @@ const dateTag = (tags, options={})=> {
 		max = Math.max(curNum, max)
 		// return curNum
 	})
-	const suftag = formatStr(max+1)
+	const suftag = formatStr(max+1, length)
 	return `${curTagHead}${suftag}`
 }
 

@@ -12,6 +12,30 @@ const ARGV_INIT = argvs['_']
 
 const all_tags = child_process.execSync('git tag -l', { encoding: 'utf8' });
 
+if(argvs['h']) {
+  log.tip(' TIP ',
+   '', 
+   '-l 查看tag信息',
+	 '-l xx 查看包含 xx 信息的全部tag',
+	 '-l -a 如果tag 太多，返回全部tag，默认返回前10个',
+	 '-M (--mode)[date|version]， 与 -T 一起用',
+	 '	- 创建tag标签 date为以日期为模板 => 20.06.01.01',
+	 '	- version 以通用版本为模板 => 1.0.0',
+	 '',
+	 '-T (--type)与-M 一起用，模板的类型',
+	 '	-M date -T YY.MM.DD => [YYYY|YY], [MM|M], [DD|D]',
+	 '	-M date -T YYYY.M.D => 2020.6.1',
+	 '	-M version -T [l+1|m+1|s+1] => 大版本更新+1，中版本，小版本',
+	 '	-M version -T s+2 => 原版本v1.0.1 => 更新后 v1.0.3 (小版本更新+2)',
+	 '	-M version -T l+1 => 原版本v1.0.1 => 更新后 v2.0.0 (大版本更新+1)',
+	 '',
+	 '-p 推送到远程 cgit tag -M date -T mm.d -p',
+	 '	- 或 推送到远程 或 cgit tag push -M date -T mm.d'
+	)
+	process.exit()
+}
+
+
 if(!all_tags) {
 	log.tip(' TIP ', '没有tag信息，先新建一个吧')
 	process.exit()

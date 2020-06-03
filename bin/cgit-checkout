@@ -29,12 +29,14 @@ const checkout = (_branch) => {
 
 // 是否有对应的远程分支
 const {currentBranch, branchList} = getBranchInfo()
+
 const hasRemoteBranch = (b) => {
   if (branchList.includes(`remotes/origin/${b}`)) {
     return true
   }
   return false
 }
+
 const pull_status = (_branch, next) => {
   // 如果远程有分支 下一步则进行拉取最新代码 否则退出
   if (hasRemoteBranch(_branch)) {
@@ -48,6 +50,15 @@ const pull_status = (_branch, next) => {
 }
 
 const BRANCH = ARGV_INIT[2]
+
+if(argvs['h']) {
+  log.tip(' TIP ',
+   '', 
+   '-m xx    保存信息提交',
+   'cgit checkout [branch] -m "xxx" 保存信息切换到 [branch] 分支，并拉取最新代码'
+  )
+  process.exit()
+}
 const MSG = argvs['m']
 if(MSG) {
 	add_commit(MSG)

@@ -26,6 +26,23 @@ const TAG = argvs['t'] || undefined
 const cgitConfig = paths.cgitConfig
 const {currentBranch, branchList} = getBranchInfo()
 
+
+if(argvs['h']) {
+  log.tip(' TIP ',
+   '', 
+   'cgit to [branch] -m "message" 保存message并切换到branch分支',
+	 '-b  指定分支：cgit to -b master',
+	 '-m  提交信息：cgit to -m "xxx"',
+	 'ps: 如果没有[branch] | -b  即：没有分支信息，则表示为当前分支',
+	 'ps: 如果没有 -m  即：没有提交信息，则表示提交信息为 update ',
+	 '',
+	 '-t 生成tag 并 提交到远程，使用配置',
+   '	-t [date|l+1|m+1|s+1] 快捷生成模板tag并推送',
+   '	-t --tag xxx 快捷生成xxx tag并推送'
+	)
+	process.exit()
+}
+
 // 是否有对应的远程分支
 const hasRemoteBranch = (b) => {
   if (branchList.includes(`remotes/origin/${b}`)) {
