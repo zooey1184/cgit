@@ -28,7 +28,7 @@ const {currentBranch, branchList} = getBranchInfo()
 
 
 if(argvs['h']) {
-  log.tip(' TIP ',
+  log.tip(' HELP ',
    '', 
    'cgit to [branch] -m "message" 保存message并切换到branch分支',
 	 '-b  指定分支：cgit to -b master',

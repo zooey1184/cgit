@@ -52,7 +52,7 @@ const pull_status = (_branch, next) => {
 const BRANCH = ARGV_INIT[2]
 
 if(argvs['h']) {
-  log.tip(' TIP ',
+  log.tip(' HELP ',
    '', 
    '-m xx    保存信息提交',
    'cgit checkout [branch] -m "xxx" 保存信息切换到 [branch] 分支，并拉取最新代码'
