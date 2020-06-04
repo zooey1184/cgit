@@ -195,7 +195,6 @@ if (BRANCH && BRANCH != currentBranch) {
 		hasConflict()
 
     // 如果没有冲突 进行第四步，提交信息，推送到远程
-    pull_status(BRANCH)
 		add_commit(`merge: ${currentBranch}`)
 		push(BRANCH)
 		checkout(currentBranch)

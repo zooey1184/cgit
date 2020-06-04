@@ -25,8 +25,10 @@ class Hook {
 					// 暂时只支持数组类型
 					if(item.scripts && item.scripts.length) {
 						for(let i=0; i<item.scripts.length; i++) {
-							let [e, ...last] = item.scripts[i]
-							spawn.sync(e, last, { stdio: 'inherit', env: process.env })
+							(()=> {
+								let [e, ...last] = item.scripts[i]
+								spawn.sync(e, last, { stdio: 'inherit', env: process.env })
+							})()
 						}
 					}
 					return item
