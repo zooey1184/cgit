@@ -23,7 +23,7 @@ if(argvs['h']) {
 	 '	- version 以通用版本为模板 => 1.0.0',
 	 '',
 	 '-T (--type)与-M 一起用，模板的类型',
-	 '	-M date -T YY.MM.DD => [YYYY|YY], [MM|M], [DD|D]',
+	 '	-M date -T YY.MM.DD => [?YYYY|YY], [?MM|M], [?DD|D]',
 	 '	-M date -T YYYY.M.D => 2020.6.1',
 	 '	-M version -T [l+1|m+1|s+1] => 大版本更新+1，中版本，小版本',
 	 '	-M version -T s+2 => 原版本v1.0.1 => 更新后 v1.0.3 (小版本更新+2)',
